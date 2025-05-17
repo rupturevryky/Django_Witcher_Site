@@ -1,0 +1,148 @@
+{% extends 'witcher/base.html' %}
+
+{% block title %}Статистика ведьмака{% endblock %}
+
+{% block content %}
+<div class="stats-container">
+	<h1>Статистика ведьмака</h1>
+
+	<div class="stats-grid">
+		<div class="stats-section">
+			<h2>Снаряжение</h2>
+			<div class="equipment-list">
+				{% for slot, item in equipment.items %}
+				<div class="equipment-item">
+					<h3>{{ item.name }}</h3>
+					<p>{{ item.description }}</p>
+					<span class="slot">{{ slot|title }}</span>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="stats-section">
+			<h2>Состояние</h2>
+			<div class="status-info">
+				<div class="toxicity-meter">
+					<h3>Токсичность</h3>
+					<div class="meter">
+						<div class="meter-fill" style="width: {{ toxicity }}%"></div>
+					</div>
+					<span class="toxicity-value">{{ toxicity }}%</span>
+				</div>
+				<div class="gold-info">
+					<h3>Заработано золота</h3>
+					<p class="gold-amount">{{ total_gold }} золота</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="stats-section">
+			<h2>Активные квесты</h2>
+			<div class="quests-list">
+				{% for quest in active_quests %}
+				<div class="quest-item">
+					<h3>{{ quest.name }}</h3>
+					<p>{{ quest.description }}</p>
+					<span class="reward">Награда: {{ quest.reward }} золота</span>
+				</div>
+				{% empty %}
+				<p>Нет активных квестов</p>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.stats-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 20px;
+		margin-top: 20px;
+	}
+
+	.stats-section {
+		background: #2a2a2a;
+		border: 1px solid #444;
+		border-radius: 8px;
+		padding: 20px;
+	}
+
+	.stats-section h2 {
+		color: #ffd700;
+		margin-top: 0;
+		border-bottom: 1px solid #444;
+		padding-bottom: 10px;
+	}
+
+	.equipment-item,
+	.quest-item {
+		background: #333;
+		border: 1px solid #444;
+		border-radius: 4px;
+		padding: 15px;
+		margin-bottom: 10px;
+	}
+
+	.equipment-item h3,
+	.quest-item h3 {
+		color: #ffd700;
+		margin-top: 0;
+	}
+
+	.slot {
+		display: inline-block;
+		background: #444;
+		color: #fff;
+		padding: 2px 8px;
+		border-radius: 4px;
+		font-size: 0.9em;
+	}
+
+	.toxicity-meter {
+		margin-bottom: 20px;
+	}
+
+	.meter {
+		background: #333;
+		height: 20px;
+		border-radius: 10px;
+		overflow: hidden;
+		margin: 10px 0;
+	}
+
+	.meter-fill {
+		background: #4CAF50;
+		height: 100%;
+		transition: width 0.3s ease;
+	}
+
+	.toxicity-value {
+		color: #4CAF50;
+		font-weight: bold;
+	}
+
+	.gold-amount {
+		color: #ffd700;
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+
+	.reward {
+		display: inline-block;
+		background: #444;
+		color: #ffd700;
+		padding: 2px 8px;
+		border-radius: 4px;
+		font-size: 0.9em;
+		margin-top: 10px;
+	}
+</style>
+{% endblock %}

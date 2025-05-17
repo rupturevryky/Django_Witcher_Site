@@ -1,0 +1,87 @@
+{% extends 'witcher/base.html' %}
+
+{% block content %}
+<div class="container">
+	<h1>Контракты</h1>
+
+	<div class="actions">
+		<a href="{% url 'witcher:generate_report' %}" class="btn btn-primary">Скачать отчет</a>
+	</div>
+
+	<div class="contracts-list">
+		{% for contract in contracts %}
+		<div class="contract-card">
+			<h3>{{ contract.monster.name }}</h3>
+			<p class="reward">Вознаграждение: {{ contract.reward }} золота</p>
+			<p class="status">Статус: {{ contract.get_status_display }}</p>
+			{% if contract.completed_by %}
+			<p class="completed-by">Выполнил: {{ contract.completed_by.username }}</p>
+			<p class="completed-at">Дата: {{ contract.completed_at|date:"d.m.Y H:i" }}</p>
+			{% endif %}
+		</div>
+		{% empty %}
+		<p>Нет доступных контрактов</p>
+		{% endfor %}
+	</div>
+</div>
+
+<style>
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 20px;
+	}
+
+	.actions {
+		margin-bottom: 20px;
+	}
+
+	.contracts-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 20px;
+	}
+
+	.contract-card {
+		background: #2a2a2a;
+		border: 1px solid #444;
+		border-radius: 8px;
+		padding: 20px;
+		color: #fff;
+	}
+
+	.contract-card h3 {
+		color: #ffd700;
+		margin-top: 0;
+	}
+
+	.reward {
+		color: #ffd700;
+		font-weight: bold;
+	}
+
+	.status {
+		color: #4CAF50;
+	}
+
+	.completed-by,
+	.completed-at {
+		color: #888;
+		font-size: 0.9em;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 10px 20px;
+		background: #4a4a4a;
+		color: #fff;
+		text-decoration: none;
+		border-radius: 4px;
+		border: 1px solid #666;
+	}
+
+	.btn:hover {
+		background: #5a5a5a;
+	}
+</style>
+{% endblock %}

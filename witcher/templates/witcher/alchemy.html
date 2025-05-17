@@ -1,0 +1,147 @@
+{% extends 'witcher/base.html' %}
+
+{% block title %}Алхимия{% endblock %}
+
+{% block content %}
+<div class="alchemy-container">
+    <h1>Алхимия</h1>
+
+    <div class="filter-section">
+        <form method="get" class="filter-form">
+            <div class="form-group">
+                <label for="toxicity">Минимальная токсичность:</label>
+                <input type="number" id="toxicity" name="toxicity" value="{{ toxicity_threshold }}" min="0" max="100">
+            </div>
+            <button type="submit" class="filter-button">Применить фильтр</button>
+        </form>
+    </div>
+
+    <div class="potions-grid">
+        {% for potion in potions %}
+        <div class="potion-card">
+            <h3>{{ potion.name }}</h3>
+            <div class="toxicity-meter">
+                <div class="meter">
+                    <div class="meter-fill" style="width: {{ potion.toxicity }}%"></div>
+                </div>
+                <span class="toxicity-value">Токсичность: {{ potion.toxicity }}%</span>
+            </div>
+            <p class="description">{{ potion.description }}</p>
+        </div>
+        {% empty %}
+        <p class="no-potions">Нет зелий, соответствующих критериям фильтрации</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .alchemy-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .filter-section {
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .filter-form {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-group label {
+        color: #ffd700;
+    }
+
+    .form-group input {
+        background: #333;
+        border: 1px solid #444;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 4px;
+        width: 80px;
+    }
+
+    .filter-button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .filter-button:hover {
+        background: #45a049;
+    }
+
+    .potions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .potion-card {
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .potion-card h3 {
+        color: #ffd700;
+        margin-top: 0;
+    }
+
+    .toxicity-meter {
+        margin: 15px 0;
+    }
+
+    .meter {
+        background: #333;
+        height: 20px;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .meter-fill {
+        background: #4CAF50;
+        height: 100%;
+        transition: width 0.3s ease;
+    }
+
+    .toxicity-value {
+        color: #4CAF50;
+        font-size: 0.9em;
+    }
+
+    .description {
+        color: #ccc;
+        margin-top: 15px;
+    }
+
+    .no-potions {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: #666;
+        padding: 40px;
+        background: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %} 
